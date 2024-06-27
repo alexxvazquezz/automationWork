@@ -30,6 +30,10 @@ class UserManagement(BasePage):
     FIRST_ELEMENT_USER_TABLE = (By.CSS_SELECTOR, 'div.oxd-table-body > div:nth-child(2) > div > div:nth-child(4) > div')
     SEARCH_INPUT_EMPLOYEE_NAME = (By.CSS_SELECTOR, 'div > div:nth-child(2) > div > div > input')
     EMPLOYEE_NAME_DROPDOWN = (By.CSS_SELECTOR, 'div.oxd-autocomplete-dropdown.--positon-bottom > div > span')
+    EDIT_PENCIL = (By.CSS_SELECTOR, 'div:nth-child(6) div > button:nth-child(2)')
+    EDIT_MAIN_TITLE = (By.CSS_SELECTOR, '.orangehrm-main-title')
+    DELETE_TRASHCAN = (By.CSS_SELECTOR, 'div:nth-child(6) > div > button:nth-child(1)')
+    YES_DELETE_POP_UP = (By.CSS_SELECTOR, 'button.oxd-button.oxd-button--medium.oxd-button--label-danger.orangehrm-button-margin')
 
 
     def __init__(self, driver):
@@ -207,5 +211,20 @@ class UserManagement(BasePage):
         input.send_keys(employee_name)
         self.find_element(self.EMPLOYEE_NAME_DROPDOWN).click()
 
+    def click_edit_pencil(self):
+        edit_pencil = self.find_element(self.EDIT_PENCIL)
+        edit_pencil.click()
+
+    def edit_main_title(self):
+        main_title = self.wait_for_text_change(self.EDIT_MAIN_TITLE, 'Edit User')
+        return main_title
+
+    def click_trash_can(self):
+        trash_icon = self.find_element(self.DELETE_TRASHCAN)
+        trash_icon.click()
+
+    def click_yes_delete(self):
+        yes_delete = self.find_element(self.YES_DELETE_POP_UP)
+        yes_delete.click()
     
 
