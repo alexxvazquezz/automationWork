@@ -13,6 +13,9 @@ class JobTitle(BasePage):
     JOB_DESCRIPTION = (By.CSS_SELECTOR, 'div:nth-child(2) > div > div:nth-child(2) > textarea')
     INPUT_FILE = (By.CSS_SELECTOR, 'input.oxd-file-input')
     ADD_NOTE = (By.CSS_SELECTOR, 'div:nth-child(4) > div > div:nth-child(2) > textarea')
+    FIRST_ROW_JOB_TABLE_NAME = (By.CSS_SELECTOR, 'div.oxd-table-body > div:nth-child(1) > div > div:nth-child(2) > div')
+    FIRST_ROW_TRASH_BUTTON = (By.CSS_SELECTOR, 'div:nth-child(1) > div > div:nth-child(4) > div > button:nth-child(1)')
+    YES_DELETE_BUTTON = (By.CSS_SELECTOR, 'button.oxd-button.oxd-button--medium.oxd-button--label-danger.orangehrm-button-margin')
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -67,4 +70,23 @@ class JobTitle(BasePage):
 
             i += 1
 
-        return False, None
+        return False
+    
+    def add_job_title(self, job_title, description, file_path, note):
+        self.input_job_title(job_title)
+        self.input_description(description)
+        self.input_file(file_path)
+        self.input_note(note)
+        self.click_save()
+
+    def get_first_job_title_name_table_row(self):
+        text = self.find_element(self.FIRST_ROW_JOB_TABLE_NAME).text
+        return text
+    
+    def click_first_trash_icon(self):
+        button = self.find_element(self.FIRST_ROW_TRASH_BUTTON)
+        button.click()
+
+    def click_yes_delete(self):
+        button = self.find_element(self.YES_DELETE_BUTTON)
+        button.click()

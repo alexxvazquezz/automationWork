@@ -10,6 +10,7 @@ from pages.login_page import LoginPage
 from pages.job_title_page import JobTitle
 
 fake = Faker()
+file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Test_doc.pdf'))
 
 @pytest.fixture(scope="module")
 def driver():
@@ -48,14 +49,21 @@ def test_required_field_add_job_title(driver):
     job_title.click_save()
     assert 'Required' == job_title.required_error_message()
 
-def test_add_job_title(driver):
-    job_title = JobTitle(driver)
-    file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Test_doc.pdf'))
-    fake_job_title = fake.name()
-    job_title.input_job_title(fake_job_title)
-    job_title.input_description(fake.paragraphs())
-    job_title.input_file(file_path)
-    job_title.input_note(fake.paragraphs())
-    job_title.click_save()
-    found = job_title.validate_job_title(fake_job_title)
-    assert fake_job_title == found
+@pytest.mark.parametrize("job_title, description, file_path, note",
+                         [(fake.name(), fake.paragraphs(), file_path, fake.paragraphs())])
+def test_add_job_title(driver, job_title, description, file_path, note):
+    job_titles = JobTitle(driver)
+    job_titles.add_job_title(job_title, description, file_path, note)
+
+    found = job_titles.validate_job_title(job_title)
+    assert job_title == found
+
+def test_delete(driver):
+    job_titles = JobTitle(driver)
+    # Get job title name that will be deleted to validate later
+    job_title_name = job_titles.get_first_job_title_name_table_row()
+    job_titles.click_first_trash_icon()
+    job_titles.click_yes_delete()
+    validate = job_titles.validate_job_title(job_title_name)
+    assert False == validate
+    
