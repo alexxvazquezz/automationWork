@@ -35,10 +35,13 @@ def test_navigate_to_user_management(driver):
     main_title_user_management = user_management.main_title_text()
     assert "System Users" == main_title_user_management
 
-def test_add_user_admin(driver):
+
+@pytest.mark.parametrize("employee_name, username, password, user_role", 
+                         [('a', fake.user_name(), fake.password(), 'Admin'),
+                          ('a', fake.user_name(), "P@ssword456", 'ESS')])
+def test_add_users(driver, employee_name, username, password, user_role):
     user_management = UserManagement(driver)
-    username = fake.user_name()
-    user_management.add_new_user('a', username, 'Terrada5224')
+    user_management.add_new_user(employee_name, username, password, user_role)
     user_management.submit_user_form()
     assert user_management.validate_username_in_table(username)
 
@@ -133,20 +136,13 @@ def test_search_by_username(driver):
     row_count = user_management.count_users_in_table()
     assert 1 == row_count
 
-
-def test_search_by_user_role_admin(driver):
+@pytest.mark.parametrize("user_role", ["Admin", "ESS"])
+def test_search_by_user_role(driver, user_role):
     user_management = UserManagement(driver)
     driver.refresh()
-    user_management.select_search_user_role('Admin')
+    user_management.select_search_user_role(user_role)
     user_management.click_search()
-    assert user_management.validate_user_role('Admin')
-
-def test_search_by_user_role_ESS(driver):
-    user_management = UserManagement(driver)
-    driver.refresh()
-    user_management.select_search_user_role('ESS')
-    user_management.click_search()
-    assert user_management.validate_user_role('ESS')
+    assert user_management.validate_user_role(user_role)
 
 def test_search_by_employee_name(driver):
     user_management = UserManagement(driver)

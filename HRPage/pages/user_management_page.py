@@ -8,6 +8,7 @@ class UserManagement(BasePage):
     ADD_USER_BUTTON = (By.CSS_SELECTOR, ".oxd-button-icon")
     ADD_USER_USER_ROLE_DROPDOWN = (By.CSS_SELECTOR, 'div:nth-child(1) > div > div:nth-child(1) > div > div:nth-child(2) > div > div')
     USER_ROLE_ADMIN_INPUT_VALUE = (By.CSS_SELECTOR, "div.oxd-select-dropdown.--positon-bottom > div:nth-child(2)")
+    USER_ROLE_ESS_INPUT_VALUE = (By.CSS_SELECTOR, 'div.oxd-select-dropdown.--positon-bottom > div:nth-child(3)')
     EMPLOYEE_INPUT_NAME = (By.CSS_SELECTOR, 'div:nth-child(1) > div > div:nth-child(2) > div > div:nth-child(2) > div > div > input')
     EMPLOYEE_NAME_FIRST_ITEM_ADD = (By.CSS_SELECTOR, 'div.oxd-autocomplete-dropdown.--positon-bottom > div.oxd-autocomplete-option.--selected')
     STATUS_DROPDOWN = (By.CSS_SELECTOR, 'div:nth-child(3) > div > div:nth-child(2) > div > div > div.oxd-select-text-input')
@@ -51,6 +52,9 @@ class UserManagement(BasePage):
     def add_admin_input_value(self):
         self.find_element(self.USER_ROLE_ADMIN_INPUT_VALUE).click()
     
+    def add_ESS_input_value(self):
+        self.find_element(self.USER_ROLE_ESS_INPUT_VALUE).click()
+    
     def enter_employee_name(self, str):
         self.find_element(self.EMPLOYEE_INPUT_NAME).send_keys(str)
 
@@ -76,10 +80,14 @@ class UserManagement(BasePage):
     def submit_user_form(self):
         self.find_element(self.SAVE_BUTTON).click()
 
-    def add_new_user(self, employeeName, userName, password):
+    def add_new_user(self, employeeName, userName, password, user_role):
         self.click_add_user()
         self.click_user_role_dropdown()
-        self.add_admin_input_value()
+        if user_role == 'Admin':
+            self.add_admin_input_value()
+        if user_role == 'ESS':
+            self.add_ESS_input_value()
+        
         self.enter_employee_name(employeeName)
         time.sleep(2)
         self.click_status_dropdown()
