@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
+from config import BASE_URL
 
 class LoginPage(BasePage):
     USERNAME_INPUT = (By.NAME, "username")
@@ -11,7 +12,7 @@ class LoginPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self.go_to("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
+        self.go_to(f"{BASE_URL}/auth/login")
 
     def login(self, username, password):
         self.find_element(self.USERNAME_INPUT).send_keys(username)

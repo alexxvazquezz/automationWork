@@ -1,6 +1,7 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from config import BASE_URL
 
 
 class JobTitle(BasePage):
@@ -23,6 +24,12 @@ class JobTitle(BasePage):
     def main_title(self):
         text = self.find_element(self.MAIN_TITLE).text
         return text
+    
+    def go_to_job_titles(self):
+        self.go_to(f"{BASE_URL}/admin/viewJobTitleList")
+
+    def go_to_add_job(self):
+        self.go_to(f"{BASE_URL}/admin/saveJobTitle")
     
     def click_add_button(self):
         button = self.find_element(self.ADD_BUTTON)

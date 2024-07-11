@@ -43,9 +43,7 @@ def test_navigate_add_job_title(driver):
 def test_required_field_add_job_title(driver):
     admin_page = AdminNavigation(driver)
     job_title = JobTitle(driver)
-    admin_page.click_admin_side_bar()
-    admin_page.go_to_job_titles()
-    job_title.click_add_button()
+    job_title.go_to_add_job()
     job_title.click_save()
     assert 'Required' == job_title.required_error_message()
 
@@ -53,6 +51,7 @@ def test_required_field_add_job_title(driver):
                          [(fake.name(), fake.paragraphs(), file_path, fake.paragraphs())])
 def test_add_job_title(driver, job_title, description, file_path, note):
     job_titles = JobTitle(driver)
+    job_titles.go_to_add_job()
     job_titles.add_job_title(job_title, description, file_path, note)
 
     found = job_titles.validate_job_title(job_title)
@@ -61,6 +60,7 @@ def test_add_job_title(driver, job_title, description, file_path, note):
 def test_delete(driver):
     job_titles = JobTitle(driver)
     # Get job title name that will be deleted to validate later
+    job_titles.go_to_job_titles()
     job_title_name = job_titles.get_first_job_title_name_table_row()
     job_titles.click_first_trash_icon()
     job_titles.click_yes_delete()

@@ -25,10 +25,12 @@ def driver():
 
 def test_is_on_dashboard(driver):
     dashboard_page = DashboardPage(driver)
+    dashboard_page.go_to_dashboard()
     assert dashboard_page.is_on_dashboard(), "Not on the dashboar page"
     
 def test_navigate_to_time(driver):
     dashboard_page = DashboardPage(driver)
+    dashboard_page.go_to_dashboard()
     time_page = TimePage(driver)
     dashboard_page.click_time_clock()
 
@@ -38,6 +40,7 @@ def test_navigate_to_time(driver):
 
 def test_navigate_to_leave_assign(driver):
     dashboard_page = DashboardPage(driver)
+    dashboard_page.go_to_dashboard()
     leave_page = LeavePage(driver)
     dashboard_page.click_assign_leave()
     
@@ -48,6 +51,7 @@ def test_navigate_to_leave_assign(driver):
 def test_navigate_to_leave(driver):
     dashboard_page = DashboardPage(driver)
     leave_page = LeavePage(driver)
+    dashboard_page.go_to_dashboard()
     dashboard_page.click_leave_list()
 
     main_title_leave_page = leave_page.leave_list_title()
@@ -57,6 +61,7 @@ def test_navigate_to_leave(driver):
 def test_navigate_to_timesheet(driver):
     dashboard_page = DashboardPage(driver)
     time_page = TimePage(driver)
+    dashboard_page.go_to_dashboard()
     dashboard_page.click_timesheet()
     
     main_title_timesheet = time_page.main_title_text()
@@ -66,6 +71,7 @@ def test_navigate_to_timesheet(driver):
 def test_navigate_apply_leave(driver):
     dashboard_page = DashboardPage(driver)
     leave_page = LeavePage(driver)
+    dashboard_page.go_to_dashboard()
     dashboard_page.click_apply_leave()
 
     main_title_apply = leave_page.main_title_text()
@@ -75,6 +81,7 @@ def test_navigate_apply_leave(driver):
 def test_navigate_my_leave(driver):
     dashboard_page = DashboardPage(driver)
     leave_page = LeavePage(driver)
+    dashboard_page.go_to_dashboard()
     dashboard_page.click_my_leave()
 
     main_title = leave_page.leave_list_title()
@@ -84,6 +91,7 @@ def test_navigate_my_leave(driver):
 def test_navigate_my_timesheet(driver):
     dashboard_page = DashboardPage(driver)
     time_page = TimePage(driver)
+    dashboard_page.go_to_dashboard()
     dashboard_page.click_my_timesheet()
 
     main_title = time_page.main_title_text()

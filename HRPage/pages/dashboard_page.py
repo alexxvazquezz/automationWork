@@ -1,5 +1,6 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
+from config import BASE_URL
 
 class DashboardPage(BasePage):
     CLOCK_BUTTON = (By.CSS_SELECTOR, ".orangehrm-attendance-card-action")
@@ -15,6 +16,9 @@ class DashboardPage(BasePage):
 
     def is_on_dashboard(self):
         return self.find_element(self.CLOCK_BUTTON)
+    
+    def go_to_dashboard(self):
+        self.go_to(f"{BASE_URL}/dashboard/index")
     
     def click_time_clock(self):
         self.find_element(self.CLOCK_BUTTON).click()

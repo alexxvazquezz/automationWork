@@ -2,6 +2,7 @@ from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import time
+from config import BASE_URL
 
 class UserManagement(BasePage):
     MAIN_TITLE = (By.CSS_SELECTOR, '.oxd-table-filter-title')
@@ -43,6 +44,12 @@ class UserManagement(BasePage):
     def main_title_text(self):
         return self.find_element(self.MAIN_TITLE).text
     
+    def go_to_users(self):
+        self.go_to(f"{BASE_URL}/admin/viewSystemUsers")
+
+    def go_to_add_user(self):
+        self.go_to(f"{BASE_URL}/admin/saveSystemUser")
+    
     def click_add_user(self):
         self.find_element(self.ADD_USER_BUTTON).click()
 
@@ -81,7 +88,6 @@ class UserManagement(BasePage):
         self.find_element(self.SAVE_BUTTON).click()
 
     def add_new_user(self, employeeName, userName, password, user_role):
-        self.click_add_user()
         self.click_user_role_dropdown()
         if user_role == 'Admin':
             self.add_admin_input_value()
